@@ -11,6 +11,7 @@ Spring MVC web application with Docker and GCP Cloud Run deployment automation.
 ## Deployment
 - Push to `main` branch triggers automatic deployment to Cloud Run
 - Access the deployed application at the Cloud Run URL
+- Automatic CI/CD pipeline with GitHub Actions
 
 ## Tech Stack
 - Java 11
