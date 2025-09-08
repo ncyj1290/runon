@@ -4,9 +4,10 @@ Spring MVC web application with Docker and GCP Cloud Run deployment automation.
 
 ## Features
 - Spring MVC framework
-- Docker containerization
-- Google Cloud Run deployment
+- Docker containerization with multi-stage build
+- Google Cloud Run serverless deployment
 - GitHub Actions CI/CD pipeline
+- Automatic scaling and zero-downtime deployments
 
 ## Deployment
 - Push to `main` branch triggers automatic deployment to Cloud Run
