@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	
+	<!-- settings -->
+	<settings>
+		<!-- DB 컬럼명의 언더스코어를 JAVA의 카멜 표기법으로 자동 매칭 설정 (ex. user_name ↔ userName) -->
+		<setting name="mapUnderscoreToCamelCase" value="true"/>
+		
+		<!-- 로그4jdbc를 통해 SQL 출력 설정 -->
+		<setting name="logImpl" value="LOG4J" />
+		
+	</settings>
+	
+	<!-- 어노테이션을 통해 자동화된 DTO 클래스 매핑을 수행하기 위해 typeAliasesPackage 사용 -->
+	<typeAliases>
+		<!-- name 속성에 지정된 패키지에 있는 모든 클래스를 자동으로 alias 지정 -->
+		<package name="com.cyj.runon.vo"/>
+	</typeAliases>
+	
+</configuration>

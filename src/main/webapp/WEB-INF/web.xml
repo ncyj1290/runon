@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5" xmlns="http://Java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee https://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+
+	<!-- The definition of the Root Spring Container shared by all Servlets and Filters -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath:/config/root-context-simple.xml</param-value>
+	</context-param>
+	
+	<!-- Creates the Spring Container shared by all Servlets and Filters -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	<session-config>
+        <session-timeout>30</session-timeout> <!-- 30분 유지 -->
+    </session-config>
+
+	<!-- Processes application requests -->
+	<servlet>
+		<servlet-name>appServlet</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>classpath:/config/servlet-context.xml</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+    <multipart-config>
+        <!-- 업로드 파일의 최대 크기 (Byte 단위). 10MB = 10 * 1024 * 1024 = 10485760 -->
+        <max-file-size>10485760</max-file-size>
+        <!-- 한 번의 요청으로 업로드되는 모든 파일의 총 최대 크기. -->
+        <max-request-size>20971520</max-request-size>
+        <!-- 특정 크기 이상의 파일이 업로드될 때 임시 디렉토리에 파일을 쓰기 전까지 메모리에 저장되는 임계 크기. -->
+        <file-size-threshold>0</file-size-threshold>
+    </multipart-config>
+	</servlet>
+		
+	<servlet-mapping>
+		<servlet-name>appServlet</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+
+	<!-- 톰캣 9.x 이하 사용 시 POST 방식 파라미터에 대한 한글 등의 인코딩 처리를 위한 필터 설정 -->
+	<filter>
+		<filter-name>EncodingFilter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>EncodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<filter>
+	    <filter-name>MultipartFilter</filter-name>
+	    <filter-class>org.springframework.web.multipart.support.MultipartFilter</filter-class>
+	</filter>
+	<filter-mapping>
+	    <filter-name>MultipartFilter</filter-name>
+	    <url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+</web-app>

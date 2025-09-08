@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.3.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+	
+	
+	<!-- 설정 파일 사용 -->
+	<context:property-placeholder location="classpath:/config/config.properties" />
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+		
+	<!-- 데이터베이스 설정을 임시로 주석 처리 -->
+	<!-- HikariCP 라이브러리 사용을 위한 설정 (커넥션풀 설정) -->
+	<!-- 1. HikariCP를 활용한 DB 접속 정보 설정을 위해 HikaraConfig 객체 설정 -->	
+	<!-- SQL 로그 출력을 위해 log4jdbc 라이브러리 관련 DBCP 정보 변경 필요 -->
+	<!-- (driverClassName, jdbcUrl 속성만 변경) -->
+	<!-- 실제 사용 시에는 적절한 데이터베이스 정보로 수정하세요 -->
+	<!--
+	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
+		<property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
+		<property name="jdbcUrl" value="jdbc:log4jdbc:mysql://127.0.0.1:3306/runon"></property>
+		<property name="username" value="admin"></property>
+		<property name="password" value="1234"></property>
+	</bean>	
+		
+	<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
+		<constructor-arg ref="hikariConfig"></constructor-arg>	
+	</bean>	
+
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"></property>
+		<property name="configLocation" value="classpath:/config/mybatis-config.xml"></property>
+		<property name="mapperLocations" value="classpath:/com/cyj/runon/mapper/*Mapper.xml"></property>
+	</bean>
+
+	<mybatis-spring:scan base-package="com.cyj.runon"/>
+	-->
+
+	<!-- 
+	@Transactional 어노테이션이 service 클래스에 있기 때문에 
+	root-context.xml 에서 service 클래스들을 scan할 수 있도록 등록
+	-->
+	<!-- Service와 Handler 스캔을 임시로 비활성화 -->
+	<!--
+	<context:component-scan base-package="com.cyj.runon">
+	    <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+	</context:component-scan>
+	-->
+	
+	<!-- Controller만 스캔 (기본 동작 테스트용) -->
+	<context:component-scan base-package="com.cyj.runon.controller" />
+
+	
+	<!-- 오토 프록시 (Auto-Proxy) 기능을 통해 객체 생성을 하기 위한 설정 -->
+	<aop:aspectj-autoproxy></aop:aspectj-autoproxy>	
+
+	<!-- 트랜잭션 설정을 임시로 비활성화 -->
+	<!--
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+	<tx:annotation-driven transaction-manager="transactionManager"/>
+	-->
+	<task:annotation-driven/>
+</beans>
