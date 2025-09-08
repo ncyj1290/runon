@@ -27,7 +27,9 @@ jobs:
 
     - name: Build and deploy using Cloud Build
       run: |
-        gcloud builds submit --config cloudbuild.yaml --project=${{ secrets.GCP_PROJECT_ID }} .
+        export COMMIT_SHA=$(git rev-parse --short HEAD)
+        gcloud builds submit --config cloudbuild.yaml --project=${{ secrets.GCP_PROJECT_ID }} \
+          --substitutions=COMMIT_SHA=$COMMIT_SHA .
 
     - name: Get service URL
       run: |
