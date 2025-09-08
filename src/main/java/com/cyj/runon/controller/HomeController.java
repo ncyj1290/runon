@@ -30,4 +30,10 @@ public class HomeController {
 		return "home";
 	}
 	
+	@RequestMapping(value = "/health", method = RequestMethod.GET)
+	@org.springframework.web.bind.annotation.ResponseBody
+	public String health() {
+		return "{'status':'UP','timestamp':'" + new Date() + "'}";
+	}
+	
 }

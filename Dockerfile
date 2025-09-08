@@ -42,9 +42,9 @@ USER tomcat:tomcat
 # Expose port 8080
 EXPOSE 8080
 
-# Add health check
-HEALTHCHECK --interval=30s --timeout=3s --start-period=30s --retries=3 \
-    CMD curl -f http://localhost:8080/ || exit 1
+# Add health check (removed curl dependency)
+# HEALTHCHECK --interval=30s --timeout=3s --start-period=30s --retries=3 \
+#     CMD curl -f http://localhost:8080/ || exit 1
 
 # Run Tomcat
 CMD ["catalina.sh", "run"]
