@@ -17,6 +17,6 @@ Spring MVC web application with Docker and GCP Cloud Run deployment automation.
 - Java 11
 - Spring MVC 5.3.24
 - Maven
-- Docker
-- Google Cloud Platform
-- GitHub Actions
+- Docker (Multi-stage build)
+- Google Cloud Platform (Cloud Run)
+- GitHub Actions (CI/CD)
