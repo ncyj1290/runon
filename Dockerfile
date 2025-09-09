@@ -24,20 +24,15 @@ RUN mvn clean package -DskipTests -Dmaven.test.skip=true
 # Runtime stage
 FROM tomcat:9.0-jre11-slim
 
-# Create non-root user
-RUN addgroup --system tomcat && adduser --system tomcat --ingroup tomcat
-
 # Remove default webapps
 RUN rm -rf /usr/local/tomcat/webapps/*
 
 # Copy built WAR file from build stage
 COPY --from=build /app/target/runon-1.0.0-BUILD-SNAPSHOT.war /usr/local/tomcat/webapps/ROOT.war
 
-# Change ownership
-RUN chown -R tomcat:tomcat /usr/local/tomcat
-
-# Switch to non-root user
-USER tomcat:tomcat
+# Set proper permissions
+RUN chmod -R 755 /usr/local/tomcat/webapps
+RUN chmod 644 /usr/local/tomcat/webapps/ROOT.war
 
 # Expose port 8080
 EXPOSE 8080
