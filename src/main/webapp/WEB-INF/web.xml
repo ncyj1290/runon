@@ -38,7 +38,21 @@
 		
 	<servlet-mapping>
 		<servlet-name>appServlet</servlet-name>
-		<url-pattern>/</url-pattern>
+		<url-pattern>/*</url-pattern>
+	</servlet-mapping>
+	
+	<!-- Default servlet for static content -->
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.html</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.css</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.js</url-pattern>
 	</servlet-mapping>
 
 	<!-- 톰캣 9.x 이하 사용 시 POST 방식 파라미터에 대한 한글 등의 인코딩 처리를 위한 필터 설정 -->
