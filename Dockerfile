@@ -24,15 +24,21 @@ RUN mvn clean package -DskipTests -Dmaven.test.skip=true
 # Runtime stage
 FROM tomcat:9.0-jre11-slim
 
-# Remove default webapps
+# Remove default webapps and create ROOT directory
 RUN rm -rf /usr/local/tomcat/webapps/*
+RUN mkdir -p /usr/local/tomcat/webapps/ROOT
 
-# Copy built WAR file from build stage
-COPY --from=build /app/target/runon-1.0.0-BUILD-SNAPSHOT.war /usr/local/tomcat/webapps/ROOT.war
+# Copy and extract WAR file to ROOT directory
+COPY --from=build /app/target/runon-1.0.0-BUILD-SNAPSHOT.war /tmp/app.war
+RUN cd /usr/local/tomcat/webapps/ROOT && \
+    jar -xf /tmp/app.war && \
+    rm /tmp/app.war
+
+# Add simple index page for testing
+RUN echo '<html><body><h1>Tomcat is working!</h1><p>Spring MVC App should be available soon...</p><a href="/health">Health Check</a></body></html>' > /usr/local/tomcat/webapps/ROOT/index.html
 
 # Set proper permissions
 RUN chmod -R 755 /usr/local/tomcat/webapps
-RUN chmod 644 /usr/local/tomcat/webapps/ROOT.war
 
 # Expose port 8080
 EXPOSE 8080
